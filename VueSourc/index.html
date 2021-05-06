@@ -10,6 +10,7 @@
     <script src="./js/compiler.js"></script>
     <script src="./js/observer.js"></script>
     <script src="./js/vue.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> -->
   </head>
   <body>
     <div id="app">
@@ -17,14 +18,17 @@
       <h1>{{msg}}</h1>
       <h1>{{count}}</h1>
       <div v-text="msg"></div>
-      <input type="text" v-module="msg" />
-      <input type="text" v-module="count" />
+      <div v-text="count"></div>
+      <input type="text" v-model="msg" />
+      <input type="text" v-model="count" />
+      <div v-html="html"></div>
     </div>
   </body>
   <script>
     let vm = new Vue({
       el: '#app',
       data: {
+        html: '<span>hahaha</span>',
         msg: 'hello vue',
         count: 2,
         obj: { name: '小明' },

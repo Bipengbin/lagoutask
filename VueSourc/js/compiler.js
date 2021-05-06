@@ -7,6 +7,7 @@ class Compiler {
 
   compile(el) {
     let childNodes = el.childNodes
+    console.dir(el)
     Array.from(childNodes).forEach(node => {
       if (this.isTextNode(node)) {
         this.compileText(node)
@@ -25,6 +26,11 @@ class Compiler {
     if (reg.test(value)) {
       let key = RegExp.$1.trim()
       node.textContent = value.replace(reg, this.vm[key])
+
+      // 创建 Wather 对象
+      new Wather(this.vm, key, newValue => {
+        node.textContent = newValue
+      })
     }
   }
   compileElement(node) {
@@ -48,7 +54,7 @@ class Compiler {
       node.textContent = newValue
     })
   }
-  moduleUpdater(node, key, value) {
+  modelUpdater(node, key, value) {
     node.value = value
     new Wather(this.vm, key, newValue => {
       node.value = newValue
@@ -57,6 +63,13 @@ class Compiler {
       this.vm[key] = node.value
     })
   }
+  htmlUpdater(node, key, value) {
+    node.innerHTML = value
+    new Wather(this.vm, key, newValue => {
+      node.textContent = newValue
+    })
+  }
+  onUpdater(node, key, value) {}
   isTextNode(node) {
     return node.nodeType === 3
   }
