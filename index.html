@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./js/dep.js"></script>
+    <script src="./js/wather.js"></script>
+    <script src="./js/compiler.js"></script>
+    <script src="./js/observer.js"></script>
+    <script src="./js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>差值表达式</h2>
+      <h1>{{msg}}</h1>
+      <h1>{{count}}</h1>
+      <div v-text="msg"></div>
+      <input type="text" v-module="msg" />
+      <input type="text" v-module="count" />
+    </div>
+  </body>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello vue',
+        count: 2,
+        obj: { name: '小明' },
+      },
+    })
+  </script>
+</html>
