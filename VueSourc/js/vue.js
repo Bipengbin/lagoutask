@@ -8,7 +8,7 @@ class Vue {
         : options.el
     this.$data = options.data || {}
     this._proxyData(this.$data)
-    new Observer(this.$data)
+    this.Observer = new Observer(this.$data)
     new Compiler(this)
   }
   _proxyData(data) {
@@ -27,5 +27,8 @@ class Vue {
         },
       })
     })
+  }
+  set(target,key,value){
+    this.Observer.defineReactive(this.$data[target],key,value)
   }
 }

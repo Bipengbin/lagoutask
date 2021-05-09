@@ -1,0 +1,6 @@
+1. patch(oldVnode.newVnode)
+2. 把新节点中变化的内容渲染到真是 DOM，最后返回新节点作为下一次处理的旧节点
+3. 对比新旧 VNode 是否相同节点（节点的 key 和 sel 相同）
+4. 如果不是相同节点，删除之前的内容，重新渲染
+5. 如果是相同节点，再判断新的 Vnode 是否有 text，如果有并且和 oldVnode 的 text 不同，直接更新文本内容
+6. 如果新的 VNode 有 children，判断子节点是否有变化

@@ -7,7 +7,6 @@ class Compiler {
 
   compile(el) {
     let childNodes = el.childNodes
-    console.dir(el)
     Array.from(childNodes).forEach(node => {
       if (this.isTextNode(node)) {
         this.compileText(node)
@@ -34,19 +33,24 @@ class Compiler {
     }
   }
   compileElement(node) {
-    // console.log(node.attributes)
     Array.from(node.attributes).forEach(attr => {
       let attrName = attr.name
       if (this.isDirective(attrName)) {
         attrName = attrName.substr(2)
         let key = attr.value
         this.update(node, key, attrName)
+      } else if (this.isHandeler(attrName)) {
+        attrName = attrName.substr(2)
+        let key = attr.value
+        let handelName = attrName.split(':')[1]
+        attrName = attrName.split(':')[0]
+        this.update(node, key, attrName, handelName)
       }
     })
   }
-  update(node, key, attrName) {
+  update(node, key, attrName, handelName) {
     let updateFn = this[attrName + 'Updater']
-    updateFn && updateFn.call(this, node, key, this.vm[key])
+    updateFn && updateFn.call(this, node, key, this.vm[key], handelName)
   }
   textUpdater(node, key, value) {
     node.textContent = value
@@ -69,7 +73,9 @@ class Compiler {
       node.textContent = newValue
     })
   }
-  onUpdater(node, key, value) {}
+  onUpdater(node, fun, name, handelName) {
+    node.addEventListener(handelName, new Function(fun))
+  }
   isTextNode(node) {
     return node.nodeType === 3
   }
@@ -77,6 +83,11 @@ class Compiler {
     return node.nodeType === 1
   }
   isDirective(attrName) {
-    return attrName.startsWith('v-')
+    let reg = /^v-html|^v-model|^v-text/
+    return reg.test(attrName)
+  }
+  isHandeler(attrName) {
+    let reg = /^v-on/
+    return reg.test(attrName)
   }
 }

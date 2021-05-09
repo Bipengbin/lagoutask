@@ -22,6 +22,7 @@
       <input type="text" v-model="msg" />
       <input type="text" v-model="count" />
       <div v-html="html"></div>
+      <div v-on:click="alert('hello')">点我</div>
     </div>
   </body>
   <script>
@@ -34,5 +35,6 @@
         obj: { name: '小明' },
       },
     })
+    vm.set('obj', 'age', '18')
   </script>
 </html>
